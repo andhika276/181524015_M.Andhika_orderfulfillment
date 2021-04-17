@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<specificationSet xmlns="http://www.yawlfoundation.org/yawlschema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="4.0" xsi:schemaLocation="http://www.yawlfoundation.org/yawlschema http://www.yawlfoundation.org/yawlschema/YAWL_Schema4.0.xsd">
+  <specification uri="Ordering">
+    <name>Ordering</name>
+    <documentation>No description provided</documentation>
+    <metaData>
+      <title>Ordering</title>
+      <creator>ASUS</creator>
+      <description>No description provided</description>
+      <coverage>4.3.1.772</coverage>
+      <version>0.3</version>
+      <persistent>false</persistent>
+      <identifier>UID_6090764d-51b2-45b2-b948-5c2b4d8a607c</identifier>
+    </metaData>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+      <xs:complexType name="PurchaseOrderType">
+        <xs:sequence>
+          <xs:element name="Company" type="CompanyType" />
+          <xs:element name="Order" type="OrderType" />
+          <xs:element name="FreightCost" type="xs:double" />
+          <xs:element name="DeliveryLocation" type="xs:string" />
+          <xs:element name="InvoiceRequired" type="xs:boolean" />
+          <xs:element name="PrePaid" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CompanyType">
+        <xs:sequence>
+          <xs:element name="Name" type="xs:string" />
+          <xs:element name="Address" type="xs:string" />
+          <xs:element name="City" type="xs:string" />
+          <xs:element name="State" type="xs:string" />
+          <xs:element name="PostCode" type="xs:string" />
+          <xs:element name="Phone" type="xs:string" />
+          <xs:element name="Fax" type="xs:string" />
+          <xs:element name="BusinessNumber" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="OrderType">
+        <xs:sequence>
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="OrderDate" type="xs:date" />
+          <xs:element name="Currency" type="CurrencyType" />
+          <xs:element name="OrderTerms" type="xs:string" />
+          <xs:element name="RevisionNumber" type="ZeroType" />
+          <xs:element name="Remarks" type="xs:string" />
+          <xs:element name="OrderLines" type="OrderLinesType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="OrderApprovalType">
+        <xs:sequence>
+          <xs:element name="OrderType" type="OrderType" />
+          <xs:element name="Approved" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="CurrencyType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AUD" />
+          <xs:enumeration value="USD" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ZeroType">
+        <xs:restriction base="xs:integer">
+          <xs:minInclusive value="0" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="OrderLinesType">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="Line" type="LineType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="LineType">
+        <xs:sequence>
+          <xs:element name="LineNumber" type="OneType" />
+          <xs:element name="UnitCode" type="xs:string" />
+          <xs:element name="UnitDescription" type="xs:string" />
+          <xs:element name="UnitQuantity" type="OneType" />
+          <xs:element name="Action" type="ActionType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="ActionType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="" />
+          <xs:enumeration value="Added" />
+          <xs:enumeration value="Modified" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="RouteGuideType">
+        <xs:sequence>
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="DeliveryLocation" type="xs:string" />
+          <xs:element name="Trackpoints" type="TrackpointsType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TrackpointsType">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="Trackpoint" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TrailerUsageType">
+        <xs:sequence>
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="Packages" type="PackagesType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PackagesType">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="Package" type="PackageType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PackageType">
+        <xs:sequence>
+          <xs:element name="PackageID" type="xs:string" />
+          <xs:element name="Volume" type="PackageVolume" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="PackageVolume">
+        <xs:restriction base="xs:integer">
+          <xs:enumeration value="25" />
+          <xs:enumeration value="50" />
+          <xs:enumeration value="100" />
+          <xs:enumeration value="200" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="TransportationQuoteType">
+        <xs:sequence>
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="NumberOfPackages" type="OneType" />
+          <xs:element name="TotalVolume" type="xs:integer" />
+          <xs:element name="ShipmentNumber" type="xs:string" />
+          <xs:element name="ShipmentCost" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="OneType">
+        <xs:restriction base="xs:integer">
+          <xs:minInclusive value="1" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="PickupInstructionsType">
+        <xs:sequence>
+          <xs:element name="ShipmentNumber" type="xs:string" />
+          <xs:element name="PickupDate" type="xs:date" />
+          <xs:element name="PickupInstructions" type="xs:string" />
+          <xs:element name="PickupSpot" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DeliveryInstructionsType">
+        <xs:sequence>
+          <xs:element name="ShipmentNumber" type="xs:string" />
+          <xs:element name="DeliveryDate" type="xs:date" />
+          <xs:element name="DeliveryInstructions" type="xs:string" />
+          <xs:element name="DeliveryLocation" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ShipmentInformationDocumentType">
+        <xs:sequence>
+          <xs:element name="ShipmentNumber" type="xs:string" />
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="NumberOfPackages" type="OneType" />
+          <xs:element name="Truckload" type="xs:boolean" />
+          <xs:element name="AuthorizationCode" type="xs:string" />
+          <xs:element name="ConsigneeNumber" type="xs:integer" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="BillOfLadingType">
+        <xs:sequence>
+          <xs:element name="ShipmentNumber" type="xs:string" />
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="NumberOfPackages" type="OneType" />
+          <xs:element name="Truckload" type="xs:boolean" />
+          <xs:element name="AuthorizationCode" type="xs:string" />
+          <xs:element name="ConsigneeNumber" type="xs:integer" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CarrierManifestType">
+        <xs:sequence>
+          <xs:element name="ShipmentNumber" type="xs:string" />
+          <xs:element name="OrderNumber" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ShipmentNoticeType">
+        <xs:sequence>
+          <xs:element name="ShipmentNumber" type="xs:string" />
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="NumberOfPackages" type="OneType" />
+          <xs:element name="Truckload" type="xs:boolean" />
+          <xs:element name="PickupInstructions" type="PickupInstructionsType" />
+          <xs:element name="StartLoad" type="xs:time" />
+          <xs:element name="EndLoad" type="xs:time" />
+          <xs:element name="DeliveryInstructions" type="DeliveryInstructionsType" />
+          <xs:element name="ClaimsDeadline" type="xs:duration" />
+          <xs:element name="DriverNumber" type="xs:string" />
+          <xs:element name="DriverName" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ShipmentInvoiceType">
+        <xs:sequence>
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="ShipmentNumber" type="xs:string" />
+          <xs:element name="Company" type="CompanyType" />
+          <xs:element name="ShipmentCost" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="FreightInvoiceType">
+        <xs:sequence>
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="Company" type="CompanyType" />
+          <xs:element name="FreightCost" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ShipmentPaymentOrderType">
+        <xs:sequence>
+          <xs:element name="ShipmentPaymentOrderNumber" type="xs:string" />
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="ShipmentNumber" type="xs:string" />
+          <xs:element name="ShipmentCost" type="xs:double" />
+          <xs:element name="Beneficiary" type="BeneficiaryType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ShipmentPaymentOrderApprovalType">
+        <xs:sequence>
+          <xs:element name="Approved" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ShipmentPaymentType">
+        <xs:sequence>
+          <xs:element name="Balance" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="BeneficiaryType">
+        <xs:sequence>
+          <xs:element name="Beneficiary" type="CompanyType" />
+          <xs:element name="Bank" type="xs:string" />
+          <xs:element name="BankCode" type="xs:string" />
+          <xs:element name="AccountName" type="xs:string" />
+          <xs:element name="AccountNumber" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DebitAdjustmentType">
+        <xs:sequence>
+          <xs:element name="StillDue" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CreditAdjustmentType">
+        <xs:sequence>
+          <xs:element name="Reimbursement" type="xs:double" />
+          <xs:element name="Beneficiary" type="BeneficiaryType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ShipmentRemittanceAdviceType">
+        <xs:sequence>
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="AmountDebited" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TrackpointNoticeType">
+        <xs:sequence>
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="ShipmentNumber" type="xs:string" />
+          <xs:element name="Trackpoint" type="xs:string" />
+          <xs:element name="ArrivalTime" type="xs:time" />
+          <xs:element name="DepartureTime" type="xs:time" />
+          <xs:element name="Notes" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TrackpointNoticesType">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="TrackpointNotice" type="TrackpointNoticeType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TrackpointOrderEntryType">
+        <xs:sequence>
+          <xs:element name="TrackpointNotice" type="TrackpointNoticeType" />
+          <xs:element name="Report" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="TrackpointOrderEntriesType">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="TrackpointOrderEntry" type="TrackpointOrderEntryType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ShipmentStatusInquiryType">
+        <xs:sequence>
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="ShipmentNumber" type="xs:string" />
+          <xs:element name="Inquiry" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AcceptanceCertificateType">
+        <xs:sequence>
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="ShipmentNumber" type="xs:string" />
+          <xs:element name="AcceptanceDate" type="xs:date" />
+          <xs:element name="DeliveryNotes" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ReturnMerchandiseType">
+        <xs:sequence>
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="ShipmentNumber" type="xs:string" />
+          <xs:element name="AcceptanceDate" type="xs:date" />
+          <xs:element name="CheckedOrderLines" type="CheckedOrderLinesType" />
+          <xs:element name="ReasonForReturn" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="LossOrDamageClaimType">
+        <xs:sequence>
+          <xs:element name="OrderNumber" type="xs:string" />
+          <xs:element name="ShipmentNumber" type="xs:string" />
+          <xs:element name="AcceptanceDate" type="xs:date" />
+          <xs:element name="ReasonForClaim" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="CheckedOrderLinesType">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="Line" type="LineType" />
+          <xs:element name="Selected" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ReturnMerchandiseApprovalType">
+        <xs:sequence>
+          <xs:element name="ReturnMerchandise" type="ReturnMerchandiseType" />
+          <xs:element name="Approved" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="LossOrDamageClaimApprovalType">
+        <xs:sequence>
+          <xs:element name="LossOrDamageClaim" type="LossOrDamageClaimType" />
+          <xs:element name="Approved" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <decomposition id="Ordering" isRootNet="true" xsi:type="NetFactsType">
+      <inputParam>
+        <index>0</index>
+        <name>PO_Manager</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <outputParam>
+        <index>0</index>
+        <name>PO_Manager</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <index>1</index>
+        <name>POApproval</name>
+        <type>boolean</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+        <defaultValue />
+      </outputParam>
+      <outputParam>
+        <index>2</index>
+        <name>POrder</name>
+        <type>PurchaseOrderType</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+        <defaultValue />
+      </outputParam>
+      <outputParam>
+        <index>3</index>
+        <name>PO_timedout</name>
+        <type>boolean</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+        <defaultValue>false</defaultValue>
+      </outputParam>
+      <localVariable>
+        <index>1</index>
+        <name>POApproval</name>
+        <type>boolean</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+        <initialValue />
+      </localVariable>
+      <localVariable>
+        <index>2</index>
+        <name>POrder</name>
+        <type>PurchaseOrderType</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+        <initialValue />
+      </localVariable>
+      <localVariable>
+        <index>3</index>
+        <name>PO_timedout</name>
+        <type>boolean</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+        <initialValue>false</initialValue>
+      </localVariable>
+      <processControlElements>
+        <inputCondition id="InputCondition">
+          <flowsInto>
+            <nextElementRef id="Create_Purchase_Order" />
+          </flowsInto>
+        </inputCondition>
+        <task id="Create_Purchase_Order">
+          <name>Create Purchase Order</name>
+          <flowsInto>
+            <nextElementRef id="Approve_Purchase_Order" />
+          </flowsInto>
+          <join code="xor" />
+          <split code="and" />
+          <startingMappings>
+            <mapping>
+              <expression query="&lt;POrder&gt;&lt;Company&gt;&lt;Name/&gt;&lt;Address/&gt;&lt;City/&gt;&lt;State/&gt;&lt;PostCode/&gt;&lt;Phone/&gt;&lt;Fax/&gt;&lt;BusinessNumber/&gt;&lt;/Company&gt;&lt;Order&gt;&lt;OrderNumber/&gt;&lt;OrderDate&gt;{fn:current-date()}&lt;/OrderDate&gt;&lt;Currency&gt;AUD&lt;/Currency&gt;&lt;OrderTerms/&gt;&lt;RevisionNumber&gt;0&lt;/RevisionNumber&gt;&lt;Remarks/&gt;&lt;OrderLines&gt;&lt;Line&gt;&lt;LineNumber&gt;1&lt;/LineNumber&gt;&lt;UnitCode/&gt;&lt;UnitDescription/&gt;&lt;UnitQuantity&gt;1&lt;/UnitQuantity&gt;&lt;Action&gt;Added&lt;/Action&gt;&lt;/Line&gt;&lt;/OrderLines&gt;&lt;/Order&gt;&lt;FreightCost&gt;0.00&lt;/FreightCost&gt;&lt;DeliveryLocation/&gt;&lt;InvoiceRequired&gt;false&lt;/InvoiceRequired&gt;&lt;PrePaid&gt;false&lt;/PrePaid&gt;&lt;/POrder&gt;" />
+              <mapsTo>POrder</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;PO_Manager&gt;{/Ordering/PO_Manager/text()}&lt;/PO_Manager&gt;" />
+              <mapsTo>PO_Manager</mapsTo>
+            </mapping>
+          </startingMappings>
+          <completedMappings>
+            <mapping>
+              <expression query="&lt;PO_Manager&gt;{/Create_Purchase_Order/PO_Manager/text()}&lt;/PO_Manager&gt;" />
+              <mapsTo>PO_Manager</mapsTo>
+            </mapping>
+            <mapping>
+              <expression query="&lt;POrder&gt;{/Create_Purchase_Order/POrder/*}&lt;/POrder&gt;" />
+              <mapsTo>POrder</mapsTo>
+            </mapping>
+          </completedMappings>
+          <resourcing>
+            <offer initiator="user" />
+            <allocate initiator="user" />
+            <start initiator="user" />
+          </resourcing>
+          <decomposesTo id="Create_Purchase_Order" />
+        </task>
+        <task id="Approve_Purchase_Order">
+          <name>Approve Purchase Order</name>
+          <flowsInto>
+            <nextElementRef id="C" />
+            <predicate ordering="0">true()</predicate>
+          </flowsInto>
+          <flowsInto>
+            <nextElementRef id="OutputCondition" />
+            <isDefaultFlow />
+          </flowsInto>
+          <join code="xor" />
+          <split code="xor" />
+          <startingMappings>
+            <mapping>
+              <expression query="&lt;POrder&gt;{/Ordering/POrder/*}&lt;/POrder&gt;" />
+              <mapsTo>POrder</mapsTo>
+            </mapping>
+          </startingMappings>
+          <completedMappings>
+            <mapping>
+              <expression query="&lt;POApproval&gt;{/Approve_Purchase_Order/POApproval/text()}&lt;/POApproval&gt;" />
+              <mapsTo>POApproval</mapsTo>
+            </mapping>
+          </completedMappings>
+          <resourcing>
+            <offer initiator="user" />
+            <allocate initiator="user" />
+            <start initiator="user" />
+          </resourcing>
+          <decomposesTo id="Approve_Purchase_Order" />
+        </task>
+        <condition id="C">
+          <flowsInto>
+            <nextElementRef id="Modify_Purchase_Order" />
+          </flowsInto>
+          <flowsInto>
+            <nextElementRef id="Confirm_Purchase_Order" />
+          </flowsInto>
+          <flowsInto>
+            <nextElementRef id="Order_Timedout" />
+          </flowsInto>
+        </condition>
+        <task id="Confirm_Purchase_Order">
+          <name>Confirm Purchase Order</name>
+          <flowsInto>
+            <nextElementRef id="OutputCondition" />
+          </flowsInto>
+          <join code="xor" />
+          <split code="and" />
+          <startingMappings>
+            <mapping>
+              <expression query="&lt;POrder&gt;{/Ordering/POrder/*}&lt;/POrder&gt;" />
+              <mapsTo>POrder</mapsTo>
+            </mapping>
+          </startingMappings>
+          <resourcing>
+            <offer initiator="user" />
+            <allocate initiator="user" />
+            <start initiator="user" />
+          </resourcing>
+          <decomposesTo id="Confirm_Purchase_Order" />
+        </task>
+        <task id="Modify_Purchase_Order">
+          <name>Modify Purchase Order</name>
+          <flowsInto>
+            <nextElementRef id="Approve_Purchase_Order" />
+          </flowsInto>
+          <join code="xor" />
+          <split code="and" />
+          <startingMappings>
+            <mapping>
+              <expression query="&lt;POrder&gt;{/Ordering/POrder/*}&lt;/POrder&gt;" />
+              <mapsTo>POrder</mapsTo>
+            </mapping>
+          </startingMappings>
+          <completedMappings>
+            <mapping>
+              <expression query="&lt;POrder&gt;{/Modify_Purchase_Order/POrder/*}&lt;/POrder&gt;" />
+              <mapsTo>POrder</mapsTo>
+            </mapping>
+          </completedMappings>
+          <resourcing>
+            <offer initiator="user" />
+            <allocate initiator="user" />
+            <start initiator="user" />
+          </resourcing>
+          <decomposesTo id="Modify_Purchase_Order" />
+        </task>
+        <task id="Order_Timedout">
+          <name>Order Timedout</name>
+          <flowsInto>
+            <nextElementRef id="OutputCondition" />
+          </flowsInto>
+          <join code="xor" />
+          <split code="and" />
+          <timer>
+            <trigger>OnEnabled</trigger>
+            <duration>P3D</duration>
+          </timer>
+          <resourcing>
+            <offer initiator="user" />
+            <allocate initiator="user" />
+            <start initiator="user" />
+          </resourcing>
+          <decomposesTo id="Order_Timedout" />
+        </task>
+        <outputCondition id="OutputCondition" />
+      </processControlElements>
+    </decomposition>
+    <decomposition id="Approve_Purchase_Order" xsi:type="WebServiceGatewayFactsType">
+      <name>Approve Purchase Order</name>
+      <inputParam>
+        <index>0</index>
+        <name>POrder</name>
+        <type>PurchaseOrderType</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <outputParam>
+        <index>1</index>
+        <name>POApproval</name>
+        <type>boolean</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+        <defaultValue />
+      </outputParam>
+      <externalInteraction>manual</externalInteraction>
+    </decomposition>
+    <decomposition id="Confirm_Purchase_Order" xsi:type="WebServiceGatewayFactsType">
+      <name>Confirm Purchase Order</name>
+      <inputParam>
+        <index>0</index>
+        <name>POrder</name>
+        <type>PurchaseOrderType</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <externalInteraction>manual</externalInteraction>
+    </decomposition>
+    <decomposition id="Create_Purchase_Order" xsi:type="WebServiceGatewayFactsType">
+      <name>Create Purchase Order</name>
+      <inputParam>
+        <index>0</index>
+        <name>PO_Manager</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <inputParam>
+        <index>1</index>
+        <name>POrder</name>
+        <type>PurchaseOrderType</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <outputParam>
+        <index>0</index>
+        <name>PO_Manager</name>
+        <type>string</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <outputParam>
+        <index>1</index>
+        <name>POrder</name>
+        <type>PurchaseOrderType</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <externalInteraction>manual</externalInteraction>
+    </decomposition>
+    <decomposition id="Modify_Purchase_Order" xsi:type="WebServiceGatewayFactsType">
+      <name>Modify Purchase Order</name>
+      <inputParam>
+        <index>0</index>
+        <name>POrder</name>
+        <type>PurchaseOrderType</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </inputParam>
+      <outputParam>
+        <index>0</index>
+        <name>POrder</name>
+        <type>PurchaseOrderType</type>
+        <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+      </outputParam>
+      <externalInteraction>manual</externalInteraction>
+    </decomposition>
+    <decomposition id="Order_Timedout" xsi:type="WebServiceGatewayFactsType">
+      <name>Order Timedout</name>
+      <externalInteraction>automated</externalInteraction>
+    </decomposition>
+  </specification>
+  <layout>
+    <locale language="en" country="US"/>
+    <specification id="Ordering" defaultBgColor="-16777216">
+      <size w="58" h="28"/>
+      <net id="Ordering" bgColor="-13369600">
+        <bounds x="0" y="-107" w="1940" h="1291"/>
+        <frame x="0" y="0" w="1133" h="458"/>
+        <viewport x="0" y="0" w="1133" h="458"/>
+        <bgImage>D:\Picture\Animee\hayden-valley-63564_1920.jpg</bgImage>
+        <vertex id="C">
+          <attributes>
+            <bounds x="456" y="252" w="52" h="52"/>
+          </attributes>
+        </vertex>
+        <vertex id="OutputCondition">
+          <attributes>
+            <bounds x="720" y="252" w="52" h="52"/>
+          </attributes>
+        </vertex>
+        <vertex id="InputCondition">
+          <attributes>
+            <bounds x="20" y="252" w="52" h="52"/>
+          </attributes>
+        </vertex>
+        <container id="Create_Purchase_Order">
+          <vertex>
+            <iconpath>manual.png</iconpath>
+            <attributes>
+              <bounds x="152" y="252" w="52" h="52"/>
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="102" y="304" w="156" h="20"/>
+            </attributes>
+          </label>
+        </container>
+        <container id="Modify_Purchase_Order">
+          <vertex>
+            <iconpath>manual.png</iconpath>
+            <attributes>
+              <bounds x="588" y="368" w="52" h="52"/>
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="538" y="420" w="156" h="20"/>
+            </attributes>
+          </label>
+        </container>
+        <container id="Confirm_Purchase_Order">
+          <vertex>
+            <iconpath>manual.png</iconpath>
+            <attributes>
+              <bounds x="588" y="252" w="52" h="52"/>
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="538" y="304" w="156" h="20"/>
+            </attributes>
+          </label>
+        </container>
+        <container id="Order_Timedout">
+          <vertex>
+            <iconpath>timer.png</iconpath>
+            <attributes>
+              <bounds x="588" y="136" w="52" h="52"/>
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="538" y="188" w="156" h="20"/>
+            </attributes>
+          </label>
+        </container>
+        <container id="Approve_Purchase_Order">
+          <vertex>
+            <iconpath>manual.png</iconpath>
+            <attributes>
+              <bounds x="344" y="252" w="52" h="52"/>
+            </attributes>
+          </vertex>
+          <label>
+            <attributes>
+              <bounds x="294" y="304" w="156" h="20"/>
+            </attributes>
+          </label>
+          <decorator type="XOR_split">
+            <position>13</position>
+            <attributes>
+              <bounds x="395" y="252" w="17" h="52"/>
+            </attributes>
+          </decorator>
+          <decorator type="XOR_join">
+            <position>12</position>
+            <attributes>
+              <bounds x="328" y="252" w="17" h="52"/>
+            </attributes>
+          </decorator>
+        </container>
+        <flow source="C" target="Order_Timedout">
+          <ports in="10" out="12"/>
+          <attributes>
+            <lineStyle>11</lineStyle>
+            <points>
+              <value x="477.5" y="252"/>
+              <value x="480" y="164"/>
+              <value x="584" y="161.5"/>
+            </points>
+          </attributes>
+        </flow>
+        <flow source="C" target="Confirm_Purchase_Order">
+          <ports in="13" out="12"/>
+          <attributes>
+            <lineStyle>11</lineStyle>
+          </attributes>
+        </flow>
+        <flow source="Approve_Purchase_Order" target="C">
+          <ports in="2" out="12"/>
+          <attributes>
+            <lineStyle>11</lineStyle>
+            <points>
+              <value x="411" y="277.5"/>
+              <value x="460" y="277.5"/>
+            </points>
+          </attributes>
+        </flow>
+        <flow source="Order_Timedout" target="OutputCondition">
+          <ports in="13" out="10"/>
+          <attributes>
+            <lineStyle>11</lineStyle>
+            <points>
+              <value x="643" y="161.5"/>
+              <value x="749.5" y="252"/>
+            </points>
+          </attributes>
+        </flow>
+        <flow source="InputCondition" target="Create_Purchase_Order">
+          <ports in="13" out="12"/>
+          <attributes>
+            <lineStyle>11</lineStyle>
+          </attributes>
+        </flow>
+        <flow source="Approve_Purchase_Order" target="OutputCondition">
+          <ports in="0" out="10"/>
+          <attributes>
+            <lineStyle>12</lineStyle>
+            <points>
+              <value x="283" y="252"/>
+              <value x="454" y="44"/>
+              <value x="665.5" y="252"/>
+            </points>
+          </attributes>
+        </flow>
+        <flow source="C" target="Modify_Purchase_Order">
+          <ports in="11" out="12"/>
+          <attributes>
+            <lineStyle>11</lineStyle>
+            <points>
+              <value x="477.5" y="303"/>
+              <value x="484" y="392"/>
+              <value x="584" y="393.5"/>
+            </points>
+          </attributes>
+        </flow>
+        <flow source="Create_Purchase_Order" target="Approve_Purchase_Order">
+          <ports in="13" out="2"/>
+          <attributes>
+            <lineStyle>11</lineStyle>
+          </attributes>
+        </flow>
+        <flow source="Modify_Purchase_Order" target="Approve_Purchase_Order">
+          <ports in="13" out="0"/>
+          <attributes>
+            <lineStyle>13</lineStyle>
+            <points>
+              <value x="639" y="393.5"/>
+              <value x="676" y="500"/>
+              <value x="336" y="303"/>
+            </points>
+          </attributes>
+        </flow>
+        <flow source="Confirm_Purchase_Order" target="OutputCondition">
+          <ports in="13" out="12"/>
+          <attributes>
+            <lineStyle>11</lineStyle>
+            <points>
+              <value x="643" y="277.5"/>
+              <value x="724" y="277.5"/>
+            </points>
+          </attributes>
+        </flow>
+      </net>
+    </specification>
+  </layout>
+</specificationSet>
